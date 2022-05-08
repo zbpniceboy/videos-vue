@@ -11,9 +11,7 @@
 					<el-divider class="splithr" content-position="center" border-style="dashed">如遇播放问题，请尝试切换：</el-divider>
 					<div class="player-api-change">
 						<template  v-for="(papi,isname) in datas.apiurl" :key="papi.id">
-						<el-button v-if="datas.defaultapi == papi" type="warning" size="small">
-						{{isname}}</el-button>	
-						<el-button v-else size="small" @click="changeDefaultApi(papi,isname)">
+						<el-button :type="[datas.defaultapi == papi ? 'warning' : 'default']" size="small" @click="changeDefaultApi(papi,isname)">
 						{{isname}}</el-button>	
 						</template>
 					</div>
@@ -63,13 +61,11 @@
 					</template>
 					<div class="episode-btn-box">
 						<template v-for="juj in compute.tempJuji" :key="juj">
-							<el-button  v-if="datas.playjuji == juj.playlink_num" class="episode-btn" size="small" type="primary">{{juj.playlink_num}}</el-button>
-							<el-button  v-else-if="juj.ellipsis" class="episode-btn" size="small" @click="openJuji(detailData.allupinfo[datas.site])">{{juj.playlink_num}}</el-button>
-							<el-button  v-else class="episode-btn" size="small" @click="clickPlay(juj.url,juj.playlink_num)" >{{juj.playlink_num}}</el-button>
+							<el-button  :type="datas.playjuji == juj.playlink_num ? 'primary' : 'default'" class="episode-btn" size="small" @click="[juj.ellipsis ? openJuji(detailData.allupinfo[datas.site]) : clickPlay(juj.url,juj.playlink_num)]">{{juj.playlink_num}}</el-button>
 						</template>
 						<template v-if="detailData.allupinfo[datas.site] >= datas.maxjuji">
 						<el-button v-if="!datas.isopen" class="episode-btn" @click="openJuji(detailData.allupinfo[datas.site])" size="small">展开</el-button>
-						<el-button v-else class="episode-btn" @click="closeJuji" size="small">收起</el-button>
+						<el-button v-if="datas.isopen" class="episode-btn" @click="closeJuji" size="small">收起</el-button>
 						</template>
 					</div>
 				</template>
@@ -80,8 +76,7 @@
 			<el-tabs type="border-card">
 				<el-tab-pane label="播放源">
 					<template v-for="(site,s) in detailData.playlink_sites" :key="site+s">
-						<el-button v-if="datas.playjuji == s" type="primary" size="small">{{site}}</el-button>
-						<el-button v-else @click = "clickPlay(detailData.playlinksdetail[s].default_url,s)" size="small">{{site}}</el-button>
+						<el-button :type="[datas.playjuji == s ? 'primary' : 'default']" size="small"  @click = "clickPlay(detailData.playlinksdetail[s].default_url,s)">{{site}}</el-button>
 					</template>
 				</el-tab-pane>
 			</el-tabs>
