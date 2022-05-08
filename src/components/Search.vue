@@ -180,8 +180,8 @@
 			}
 			
 			const SearchPlay = (hisdata,i) => {
-				let catUrl = '',episod = ';'
-				if(hisdata.cat_id == 'v' && i){
+				let catUrl = '',episod = '';
+				if(hisdata.cat_id == 'v' && i != null){
 					catUrl = hisdata.playlinks[hisdata.site][i].url;
 					episod = hisdata.playlinks[hisdata.site][i].period
 				}
@@ -190,9 +190,9 @@
 					episod = hisdata.site
 				}
 				
-				if((hisdata.cat_id == 'tv' || hisdata.cat_id == 'c') && i){
+				if((hisdata.cat_id == 'tv' || hisdata.cat_id == 'c') && i != null){
 					catUrl = hisdata.playlinksdetail[i].url;
-					episod = hisdata.playlinksdetail[i].playNum
+					episod = hisdata.playlinksdetail[i].playNum;
 				}
 				let varietyhist = {
 					api:datas.playerUrl['接口一'],           
