@@ -1,7 +1,7 @@
 <template>
 	<el-container direction="vertical">
 		<Header :swiper = "false" positions = "initial" />
-		<Search :search-Data = "datas.searchData" :isLoading="datas.isLoading"/>
+		<Search :search-Data = "datas.searchData" :isLoading="datas.isLoading" :isnull = "datas.isNull"/>
 		<Footer />
 	</el-container>
 </template>
@@ -23,6 +23,7 @@ export default defineComponent({
 		const datas = reactive({
 			searchData : [], 
 			isLoading : '',
+			isNull :false,
 		});
 		onMounted(()=>{
 			getData(proxy.$route.query.kw);
@@ -30,10 +31,13 @@ export default defineComponent({
 		const getData = (kw) => {
 			datas.isLoading = true;
 			proxy.axios.get('/core/?source=search&types=s&key='+kw).then((response) => {
-				if(response.data){
+				if(response.data.length > 0){
 					datas.searchData = response.data;
-					datas.isLoading = false;
+					datas.isNull = false;
+				}else{
+					datas.isNull = true;
 				}
+				datas.isLoading = false;
 			})
 		}
 		return {

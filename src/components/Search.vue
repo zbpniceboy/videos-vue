@@ -2,7 +2,7 @@
 	<div class="pageWidth">
 	<el-main>
 		<div v-show="isLoading" class="main-container"></div>
-		<template v-if="!isLoading && compute.alldata.length > 0">
+		<template v-if="!isLoading && isnull == false">
 		<el-row v-for="sear in compute.alldata" :key="sear" class="header-white" :style="{marginBottom:'10px',padding:'20px'}">
 			<el-col :span="4">
 				<router-link :to="{
@@ -77,7 +77,7 @@
 								id:sear.id,
 							}
 						}">
-						<el-button v-if="juj.ellipsis" class="episode-btn" size="small" @click="toPlay()">{{juj.playNum}}</el-button>
+						<el-button v-if="juj.ellipsis" class="episode-btn" size="small">{{juj.playNum}}</el-button>
 						<el-button v-else class="episode-btn" size="small" @click="SearchPlay(sear,e)">{{juj.playNum}}</el-button>
 						</router-link>
 					</template>
@@ -86,7 +86,7 @@
 			</el-col>
 		</el-row>
 		</template>
-		<template v-else>
+		<template v-if="isnull">
 			<el-empty class="empty-search" :description="'没有搜索到与《'+this.$route.query.kw+'》相关影片，请尝试其他关键词！'"></el-empty>
 		</template>
 	</el-main>
@@ -94,11 +94,14 @@
 </template>
 <script>
 	import { defineComponent , getCurrentInstance , onMounted, reactive,computed,watch} from 'vue'
+	import 'element-plus/es/components/loading/style/css'
+	import { ElLoading  } from 'element-plus'
 	export default defineComponent({
 		name: 'Search',
 		props: {
 			searchData: Object,
-			isLoading :Boolean
+			isLoading :Boolean,
+			isnull : Boolean
 		},
 		setup(props){
 			let { proxy } = getCurrentInstance();
@@ -167,7 +170,7 @@
 			)
 			
 			const loading = () =>{
-				const loading = proxy.$loading({
+				const loading = ElLoading.service({
 					lock: true,
 					fullscreen:false,
 					text: '努力加载中...',

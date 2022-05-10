@@ -18,8 +18,16 @@
 				</el-tab-pane>
 			</el-tabs>
 		</el-row>
-		<el-row :gutter="10" v-if="(datas.types != 'movie')" class="videodetail">
-			<el-tabs v-model="datas.site" type="border-card" @tab-click="changesite">
+		<el-row :gutter="10" class="videodetail">
+			<el-tabs v-if="(datas.types == 'movie')" type="border-card">
+				<el-tab-pane label="播放源">
+					<template v-for="(msite,mindex) in detailData.playlink_sites" :key="mindex">
+						<el-button :type="[datas.playjuji == mindex ? 'primary' : 'default']" size="small"  @click = "clickPlay(detailData.playlinksdetail[mindex].default_url,mindex)">{{msite}}</el-button>
+					</template>
+				</el-tab-pane>
+			</el-tabs>
+			
+			<el-tabs v-else v-model="datas.site" type="border-card" @tab-click="changesite">
 			<el-tab-pane v-for="(site,s) in detailData.playlink_sites" :key="site+s" :label="site" :name="s">
 				<template v-if="(datas.types == 'variety')">
 				<el-tabs v-model="datas.tabsindex"  type="border-card" class="yearTab" @tab-click="splitDate">
@@ -64,21 +72,11 @@
 							<el-button  :type="datas.playjuji == juj.playlink_num ? 'primary' : 'default'" class="episode-btn" size="small" @click="[juj.ellipsis ? openJuji(detailData.allupinfo[datas.site]) : clickPlay(juj.url,juj.playlink_num)]">{{juj.playlink_num}}</el-button>
 						</template>
 						<template v-if="detailData.allupinfo[datas.site] >= datas.maxjuji">
-						<el-button v-if="!datas.isopen" class="episode-btn" @click="openJuji(detailData.allupinfo[datas.site])" size="small">展开</el-button>
-						<el-button v-if="datas.isopen" class="episode-btn" @click="closeJuji" size="small">收起</el-button>
+						<el-button class="episode-btn" @click="[datas.isopen ? closeJuji() : openJuji(detailData.allupinfo[datas.site])]" size="small">{{datas.isopen ? '收起' : '展开'}}</el-button>
 						</template>
 					</div>
 				</template>
 			</el-tab-pane>
-			</el-tabs>
-		</el-row>
-		<el-row v-if="datas.types == 'movie'" :gutter="10" class="videodetail">
-			<el-tabs type="border-card">
-				<el-tab-pane label="播放源">
-					<template v-for="(site,s) in detailData.playlink_sites" :key="site+s">
-						<el-button :type="[datas.playjuji == s ? 'primary' : 'default']" size="small"  @click = "clickPlay(detailData.playlinksdetail[s].default_url,s)">{{site}}</el-button>
-					</template>
-				</el-tab-pane>
 			</el-tabs>
 		</el-row>
 	</el-main>
@@ -175,9 +173,9 @@ export default defineComponent({
 		const compute = computed(() => {
 			var tempJuji = '' ,arr = [];
 			//展开收缩的计算
-			if(props.detailData.juji){
+			if(props.detailData || datas.NewDetailDataJuji){
 				tempJuji = props.detailData.juji[datas.site] || [];
-				if(tempJuji.length > 0){
+				if(tempJuji){
 					//根据api接口分析，判断剧集大于或等于34集的时候添加省略号
 					if(props.detailData.allupinfo[datas.site] >= datas.maxjuji && datas.isopen == false){
 						let reCompute = true;
@@ -197,8 +195,7 @@ export default defineComponent({
 					}else{
 						tempJuji = datas.NewDetailDataJuji[datas.site];
 					}
-				}
-				
+					
 				let limit = 50;
 				if(props.detailData.allupinfo[datas.site] > limit){
 					let len = Math.ceil(props.detailData.allupinfo[datas.site] / limit),
@@ -218,6 +215,8 @@ export default defineComponent({
 						}
 						tempArr = limit * (i+1) + 1;
 					}
+				}
+					
 				}
 			}
 			return {

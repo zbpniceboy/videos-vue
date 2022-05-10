@@ -1,18 +1,18 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import axios from '../node_modules/axios'
-import VueAxios from '../node_modules/vue-axios'
-import ElementPlus from '../node_modules/element-plus'
-import * as ELIcons from '../node_modules/@element-plus/icons-vue'
-import '../node_modules/element-plus/dist/index.css'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import * as ELIcons from '@element-plus/icons-vue'
+import 'element-plus/es/components/message/style/css'
+import { ElMessage } from 'element-plus'
 const app = createApp(App)
 
 app.use(VueAxios, axios)
 for(let iconName in ELIcons){
  app.component(iconName,ELIcons[iconName])
 }
-app.use(ElementPlus)
+app.use(ElMessage)
 
 	/*
 	 * 存储数据
@@ -51,4 +51,4 @@ app.use(ElementPlus)
 		return localStorage.removeItem(key);
 	}
 app.use(router).mount('#app')
-axios.defaults.baseURL = '/videos/'  //关键代码，这里填写你后端接口所在的文件夹名字，如：/videos/文件夹下的接口文件  接口.php
+axios.defaults.baseURL = '/api'  //关键代码，这里填写你后端接口所在的文件夹名字，如：/videos/文件夹下的接口文件  接口.php
