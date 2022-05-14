@@ -1,21 +1,21 @@
 <template>
-	<el-container direction="vertical">
-		<Header :swiper = "false" positions = "initial" />
-		<Search :search-Data = "datas.searchData" :isLoading="datas.isLoading" :isnull = "datas.isNull"/>
-		<Footer />
-	</el-container>
+	<Header :swiper = "false" positions = "initial" />
+	<div class="pusher">
+	<SearchPage :search-Data = "datas.searchData" :isLoading="datas.isLoading" :isnull = "datas.isNull"/>
+	<Footer />
+	</div>
 </template>
 
 <script>
 import Header from '@/components/Header.vue'
-import Search from '@/components/Search.vue'
+import SearchPage from '@/components/SearchPage.vue'
 import Footer from '@/components/Footer.vue'
 import { defineComponent , getCurrentInstance , onMounted , reactive} from 'vue'
 export default defineComponent({
 	name: 'search',
 	components: {
 		Header,
-		Search,
+		SearchPage,
 		Footer,
 	},
 	setup() {

@@ -1,14 +1,14 @@
 <template>
-	<el-tooltip content="返回顶部" placement="left">
-		<el-backtop :bottom="120">
-	<div style="height: 100%;width: 100%; background-color: var(--el-bg-color-overlay);box-shadow: var(--el-box-shadow-lighter);text-align: center;line-height: 40px;color: #1989fa;"><el-icon><Arrow-up-bold /></el-icon></div>
+<!-- 	<el-tooltip content="返回顶部" placement="left">
+		<el-backtop :bottom="120" class="backTop">
+		<el-icon><Arrow-up-bold /></el-icon>
 		</el-backtop>
 	</el-tooltip>
 	<el-tooltip content="刷新" placement="left" >
 		<div class="refresh" @click="refresh">
 			<el-icon><Refresh /></el-icon>
 		</div>
-	</el-tooltip>
+	</el-tooltip> -->
 	<footer class="zbp-footer">
 		<p>由&nbsp;<a :href="link">{{blogName}}</a>&nbsp;提供技术支持 © Copyright {{year}}. &nbsp; &nbsp;Theme UI Element-UI.	&nbsp; &nbsp;<small>本站只提供在线查询，不提供任何资源存储服务</small>
 		</p>
@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style scoped>
-	.refresh{
+	.backTop,.refresh{
 		position: fixed;
 		right: 40px;
 		bottom: 70px;
@@ -76,7 +76,15 @@ export default {
 		background: rgba(255,255,255,.8);
 		color:#555;
 		font-size: 0.9rem;
-		margin-top: 30px
+		margin-top: 20px;
+		text-align: center;
+	}
+	@media only screen and (max-width: 768px){
+		.zbp-footer{
+			padding: 10px 0;
+			height: auto;
+			line-height: 25px;
+		}
 	}
 	.zbp-footer a{
 		text-decoration: none;

@@ -26,16 +26,16 @@
 }
 body{
 	background: #eeeeee;
+	font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+	'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #2c3e50;
+	font-size: var(--el-font-size-base);
+	overflow-x: hidden;
 }
 a{text-decoration: none;color:unset}
-#app {
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-  'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+#app{overflow:hidden;background: #eeeeee;height: 100%;}
 .pageWidth{
 	width: 100%;
 	max-width: 1168px;
@@ -62,4 +62,17 @@ a{text-decoration: none;color:unset}
 		background-color: coral;
 		color: white;
 	}
+.show-navbar ~ .el-header, .show-navbar ~ .pusher {
+	-webkit-transform: translate3d(70px, 0, 0);
+	transform: translate3d(70px, 0, 0);
+}
+.el-header,.pusher{
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-webkit-transition: -webkit-transform .5s ease;
+	transition: -webkit-transform .5s ease;
+	transition: transform .5s ease;
+	transition: transform .5s ease,-webkit-transform .5s ease;
+	will-change: transform;
+}
 </style>

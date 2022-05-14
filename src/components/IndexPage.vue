@@ -276,8 +276,7 @@ export default defineComponent({
 	},
 	setup() {
 		const datas = reactive({});
-		
-		
+
 		
 		return {
 			datas,
@@ -325,7 +324,7 @@ export default defineComponent({
 
 .row-single-right .el-col,.movie .el-col,.comic .el-col{
 	width: 100%;
-	padding-bottom: 10px;
+	padding-bottom: 11px;
 }
 .card-text-box{
 	padding: 6px 10px 6px 10px;

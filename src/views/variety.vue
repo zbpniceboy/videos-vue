@@ -1,11 +1,9 @@
 <template>
-<div class="videosPage">
-	<el-container direction="vertical">
-		<Header :swiper = "false" positions = "initial" />
-		<VarietyPage  :catlist="datas.catlist" :varietydata = "datas.varietypage" :isnull="datas.isNull" :loading="datas.isLoading" />
-		<Footer />
-	</el-container>
-</div>
+	<Header :swiper = "false"/>
+	<div class="pusher">
+	<VarietyPage :varietydata = "datas.varietypage" :isnull="datas.isNull" :loading="datas.isLoading" />
+	<Footer />
+	</div>
 </template>
 
 <script>
@@ -25,7 +23,6 @@ export default defineComponent({
 		let { proxy } = getCurrentInstance();
 		const datas = reactive({
 			varietypage : [], 
-			catlist:[],
 			isNull:false,
 			isLoading:true
 		});
@@ -33,21 +30,7 @@ export default defineComponent({
 			if(JSON.stringify(proxy.$route.query) == "{}"){
 				getData();
 			}
-			getCatData();
 		});
-		const getCatData = () => {
-			const varietyCatList = proxy.$readData('varietyCatList');
-			if(varietyCatList){
-				datas.catlist = varietyCatList;
-			}else{
-				proxy.axios.get('/core/?source=variety&types=CatList').then((response) => {
-					if(response.data){
-						proxy.$saveData('varietyCatList',response.data);
-						datas.catlist = response.data;
-					}
-				})
-			}
-		}
 		const getData = (d) => {
 			let str = '';
 			if(d){

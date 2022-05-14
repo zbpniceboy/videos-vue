@@ -1,11 +1,9 @@
 <template>
-<div class="videosPage">
-	<el-container direction="vertical">
-		<Header :swiper = "false" positions = "initial" />
-		<ComicPage :comicdata = "datas.comicpage" :catlist="datas.catlist" :isnull="datas.isNull" :loading="datas.isLoading"/>
-		<Footer />
-	</el-container>
-</div>
+	<Header :swiper = "false"/>
+	<div class="pusher">
+	<ComicPage :comicdata = "datas.comicpage"  :isnull="datas.isNull" :loading="datas.isLoading"/>
+	<Footer />
+	</div>
 </template>
 
 <script>
@@ -25,7 +23,6 @@ export default defineComponent({
 		let { proxy } = getCurrentInstance();
 		const datas = reactive({
 			comicpage : [], 
-			catlist:[],
 			isNull:false,
 			isLoading:true
 		});
@@ -33,21 +30,7 @@ export default defineComponent({
 			if(JSON.stringify(proxy.$route.query) == "{}"){
 				getData();
 			}
-			getCatData();
 		});
-		const getCatData = () => {
-			const comicCatList = proxy.$readData('comicCatList');
-			if(comicCatList){
-				datas.catlist = comicCatList;
-			}else{
-				proxy.axios.get('/core/?source=comic&types=CatList').then((response) => {
-					if(response.data){
-						proxy.$saveData('comicCatList',response.data);
-						datas.catlist = response.data;
-					}
-				})
-			}
-		}
 		const getData = (d) => {
 			let str = '';
 			if(d){

@@ -1,11 +1,9 @@
 <template>
-<div class="videosPage" >
-	<el-container direction="vertical">
-		<Header :swiper = "false" positions = "initial"  />
-		<TvPage :tvdata = "datas.tvpage" :catlist = "datas.catlist" :isnull="datas.isNull" :loading="datas.isLoading" />
-		<Footer />
-	</el-container>
-</div>
+	<Header :swiper = "false"/>
+	<div class="pusher">
+	<TvPage :tvdata = "datas.tvpage" :isnull="datas.isNull" :loading="datas.isLoading" />
+	<Footer />
+	</div>
 </template>
 
 <script>
@@ -25,7 +23,6 @@ export default defineComponent({
 		let { proxy } = getCurrentInstance();
 		const datas = reactive({
 			tvpage : [], 
-			catlist : [], 
 			isNull:false,
 			isLoading:true
 		});
@@ -33,21 +30,7 @@ export default defineComponent({
 			if(JSON.stringify(proxy.$route.query) == "{}"){
 				getData();
 			}
-			getCatData();
 		});
-		const getCatData = () => {
-			const tvCatList = proxy.$readData('tvCatList');
-			if(tvCatList){
-				datas.catlist = tvCatList;
-			}else{
-				proxy.axios.get('/core/?source=tv&types=CatList').then((response) => {
-					if(response.data){
-						proxy.$saveData('tvCatList',response.data);
-						datas.catlist = response.data;
-					}
-				})
-			}
-		}
 		const getData = (d) => {
 			let str = '';
 			if(d){

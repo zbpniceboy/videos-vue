@@ -1,28 +1,28 @@
 <template>
-	<el-main class="pageWidth detail">
-		<el-row :gutter="10">
-			<iframe :src="datas.defaultapi + datas.playurl" id="player" width="100%" allowtransparency="true" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"  scrolling="No" ></iframe>
-		
+	<el-main class="pageWidth main-single-box">
+		<el-row class="player-box">
+			<el-col class="play-title"><h2>{{detailData.title}}</h2></el-col>
+			<el-col><iframe :src="datas.defaultapi + datas.playurl" id="player" width="100%" allowtransparency="true" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"  scrolling="No" ></iframe></el-col>
 		</el-row>
-		<el-row  :gutter="10" class="videodetail">
+		<el-row class="videodetail">
 			<el-tabs type="border-card">
 				<el-tab-pane label="简介">
 					<div>{{detailData.desc}}</div>
-					<el-divider class="splithr" content-position="center" border-style="dashed">如遇播放问题，请尝试切换：</el-divider>
+					<el-divider class="splithr" content-position="center">如遇播放问题，请尝试切换：</el-divider>
 					<div class="player-api-change">
 						<template  v-for="(papi,isname) in datas.apiurl" :key="papi.id">
-						<el-button :type="[datas.defaultapi == papi ? 'warning' : 'default']" size="small" @click="changeDefaultApi(papi,isname)">
+						<el-button :type="datas.defaultapi == papi ? 'warning' : 'default'" @click="changeDefaultApi(papi,isname)">
 						{{isname}}</el-button>	
 						</template>
 					</div>
 				</el-tab-pane>
 			</el-tabs>
 		</el-row>
-		<el-row :gutter="10" class="videodetail">
+		<el-row class="videodetail">
 			<el-tabs v-if="(datas.types == 'movie')" type="border-card">
 				<el-tab-pane label="播放源">
 					<template v-for="(msite,mindex) in detailData.playlink_sites" :key="mindex">
-						<el-button :type="[datas.playjuji == mindex ? 'primary' : 'default']" size="small"  @click = "clickPlay(detailData.playlinksdetail[mindex].default_url,mindex)">{{msite}}</el-button>
+						<el-button :type="datas.playjuji == mindex ? 'primary' : 'default'"  @click = "clickPlay(detailData.playlinksdetail[mindex].default_url,mindex)">{{msite}}</el-button>
 					</template>
 				</el-tab-pane>
 			</el-tabs>
@@ -49,7 +49,7 @@
 				</el-tabs>
 				<el-row :gutter="10">
 					<template v-for="(escode,id) in detailData.episode" :key="escode.value+'C'">
-					<el-col :class="[(datas.playurl == detailData.episode[id].url) ? 'btn-cur' : '']" :span="4" @click = "clickPlay(detailData.episode[id].url,detailData.episode[id].period)">
+					<el-col :xs="12" :sm="6" :md="4" :lg="4" :xl="4"  :class="[(datas.playurl == detailData.episode[id].url) ? 'btn-cur' : '']" :span="4" @click = "clickPlay(detailData.episode[id].url,detailData.episode[id].period)">
 					<el-card class="box-card" shadow="never">
 						<el-image :src="escode.v_cover"></el-image>
 						<div>
@@ -69,10 +69,10 @@
 					</template>
 					<div class="episode-btn-box">
 						<template v-for="juj in compute.tempJuji" :key="juj">
-							<el-button  :type="datas.playjuji == juj.playlink_num ? 'primary' : 'default'" class="episode-btn" size="small" @click="[juj.ellipsis ? openJuji(detailData.allupinfo[datas.site]) : clickPlay(juj.url,juj.playlink_num)]">{{juj.playlink_num}}</el-button>
+							<el-button  :type="datas.playjuji == juj.playlink_num ? 'primary' : 'default'" class="episode-btn"  @click="[juj.ellipsis ? openJuji(detailData.allupinfo[datas.site]) : clickPlay(juj.url,juj.playlink_num)]">{{juj.playlink_num}}</el-button>
 						</template>
 						<template v-if="detailData.allupinfo[datas.site] >= datas.maxjuji">
-						<el-button class="episode-btn" @click="[datas.isopen ? closeJuji() : openJuji(detailData.allupinfo[datas.site])]" size="small">{{datas.isopen ? '收起' : '展开'}}</el-button>
+						<el-button class="episode-btn" @click="[datas.isopen ? closeJuji() : openJuji(detailData.allupinfo[datas.site])]" >{{datas.isopen ? '收起' : '展开'}}</el-button>
 						</template>
 					</div>
 				</template>
@@ -181,7 +181,7 @@ export default defineComponent({
 						let reCompute = true;
 						//此处遍历查找是否已经添加了省略号，添加了则不进行第二次添加
 						for(let i in tempJuji){
-							if(tempJuji[i].ellipsis) reCompute = false;
+							if(tempJuji[i].ellipsis)reCompute = false;							
 						}
 						if(reCompute){
 							//要插入的位置
@@ -388,7 +388,7 @@ export default defineComponent({
 			datas.start = 1;
 			datas.end = 50;
 			datas.site = val.paneName;
-			proxy.$parent.$parent.getData(datas.site);
+			proxy.$parent.getData(datas.site);
 		}
 		
 		const changeDefaultApi = (val,name) => {
@@ -460,7 +460,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
-	#player{background-color: black;}
+	.player-box{background-color: white;padding: 15px;}
+	.play-title{margin-bottom: 15px;color: coral;}
+	#player{background-color: black;border-radius: 10px;}
 	.videodetail{
 		margin: 20px 0 0 0;
 	}
@@ -475,7 +477,7 @@ export default defineComponent({
 	}
 	.videodetail :deep(.el-tabs__content){
 		text-align: left;
-		font-size: 0.9rem;
+		font-size: 0.8rem;
 		line-height: 25px	;
 	}
 	.videodetail .el-tabs__content .el-tabs__content{
@@ -495,7 +497,6 @@ export default defineComponent({
 	}
 	.splithr{
 		background-color: coral;
-		
 	}
 	.splithr :deep(div){
 		color: coral;
@@ -504,6 +505,9 @@ export default defineComponent({
 	}
 	.player-api-change{
 		text-align: center;
+		line-height: 45px;
+		display: flex;
+		justify-content: center;
 	}
 	.el-link.el-link--default{
 		margin: 0 8px 10px 0;
@@ -525,5 +529,17 @@ export default defineComponent({
 		text-align: center;
 		width: 53px;
 		margin: 5px;
+	}
+	@media only screen and (max-width: 600px){
+		#player{
+			height: 300px;
+		}
+		.splithr :deep(div){
+			font-size: 0.8rem;
+			white-space: nowrap;
+		}
+		.el-main{
+			padding:10px;
+		}
 	}
 </style>

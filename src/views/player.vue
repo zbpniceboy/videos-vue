@@ -1,11 +1,9 @@
 <template>
-<div class="videosPage">
-	<el-container direction="vertical">
-		<Header :swiper = "false" positions = "initial" />
-		<Player :detail-Data = "datas.playerpage"/>
-		<Footer />
-	</el-container>
-</div>
+	<Header :swiper = "false" positions = "initial" />
+	<div class="pusher">
+	<Player :detail-Data = "datas.playerpage"/>
+	<Footer />
+	</div>
 </template>
 
 <script>

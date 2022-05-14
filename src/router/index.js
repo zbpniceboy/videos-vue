@@ -43,7 +43,7 @@ const routes = [
 const router = createRouter({
   // history: createWebHistory(),
   history: createWebHashHistory(),
-  // base: '/videos/',
+  base: '/videos/',
   routes
 })
 

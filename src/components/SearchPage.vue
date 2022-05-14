@@ -1,5 +1,5 @@
 <template>
-	<div class="pageWidth">
+	<div class="pageWidth main-single-box">
 	<el-main>
 		<div v-show="isLoading" class="main-container"></div>
 		<template v-if="!isLoading && isnull == false">
@@ -77,8 +77,8 @@
 								id:sear.id,
 							}
 						}">
-						<el-button v-if="juj.ellipsis" class="episode-btn" size="small">{{juj.playNum}}</el-button>
-						<el-button v-else class="episode-btn" size="small" @click="SearchPlay(sear,e)">{{juj.playNum}}</el-button>
+						<el-button v-if="juj.ellipsis" class="episode-btn" >{{juj.playNum}}</el-button>
+						<el-button v-else class="episode-btn"  @click="SearchPlay(sear,e)">{{juj.playNum}}</el-button>
 						</router-link>
 					</template>
 				</el-descriptions-item>
@@ -97,7 +97,7 @@
 	import 'element-plus/es/components/loading/style/css'
 	import { ElLoading  } from 'element-plus'
 	export default defineComponent({
-		name: 'Search',
+		name: 'SearchPage',
 		props: {
 			searchData: Object,
 			isLoading :Boolean,
@@ -138,8 +138,8 @@
 						}
 						alldata[j].desc = desc;
 						
-						if(alldata[j].actor.length > 8){
-							alldata[j].actor.splice(8);
+						if(alldata[j].actor.length > 6){
+							alldata[j].actor.splice(6);
 						}
 						let playliks = alldata[j].playlinksdetail ? alldata[j].playlinksdetail : [];
 						if(typeof playliks !== 'undefined' && playliks.length > 0){
@@ -248,6 +248,9 @@
 </script>
 
 <style scoped>
+	.el-main{
+		margin-top: 60px!important;
+	}
 	.main-container,.empty-search{
 		width: 100%;
 		height: 600px;
@@ -255,6 +258,9 @@
 	.header-white :deep(.el-descriptions__title){
 		font-size: 1.4rem;
 		color: crimson;
+	}
+	.header-white :deep(.el-descriptions__cell){
+		font-size:0.8rem;
 	}
 	.header-white :deep(.my-content){
 		overflow: hidden;
