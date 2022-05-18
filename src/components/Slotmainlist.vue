@@ -70,6 +70,15 @@
 		</template>
 		</el-skeleton>
 	</el-main>
+	
+	<el-pagination v-if="slotdata && !isnull"
+		background 
+		:pager-count="5"
+		:current-page="this.$parent.datas.curpage"
+		layout="prev, pager, next" 
+		:total="this.$parent.compute.pagebar"
+		@current-change="this.$parent.curSizeChange">
+	</el-pagination>
 </template>
 
 <script>
@@ -79,7 +88,7 @@
 		props:{
 			slotdata:Object,
 			isnull:Boolean,
-			loading:Boolean
+			loading:Boolean,
 		},
 		setup() {
 			let { proxy } = getCurrentInstance();

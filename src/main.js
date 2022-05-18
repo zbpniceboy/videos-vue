@@ -52,4 +52,4 @@ app.use(ElMessage)
 		return localStorage.removeItem(key);
 	}
 app.use(router).mount('#app')
-axios.defaults.baseURL = '/videos/'  //关键代码，这里填写你后端接口所在的文件夹名字，如：/videos/文件夹下的接口文件  接口.php
+axios.defaults.baseURL = '/api'  //关键代码，这里填写你后端接口所在的文件夹名字，如：/videos/文件夹下的接口文件  接口.php
